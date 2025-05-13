@@ -1,5 +1,5 @@
 import streamlit as st
-import PyMuPDF
+import pymupdf
 import pandas as pd
 from openai import OpenAI
 import tempfile
