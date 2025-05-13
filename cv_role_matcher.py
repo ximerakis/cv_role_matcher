@@ -85,10 +85,10 @@ Explanation: ...
         match_data.append(row)
 
     df = pd.DataFrame(match_data)
-    # Format scores as percentages for display (optional)
-for jd_name in jd_texts.keys():
-    if jd_name in df.columns:
-        df[jd_name] = df[jd_name].apply(lambda x: f"{x}%" if x is not None else "N/A")
+        # Format scores as percentages for display (optional)
+    for jd_name in jd_texts.keys():
+        if jd_name in df.columns:
+            df[jd_name] = df[jd_name].apply(lambda x: f"{x}%" if x is not None else "N/A")
 
     # Determine best CV for each job description
 top_candidates = []
