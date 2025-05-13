@@ -1,5 +1,5 @@
 import streamlit as st
-import pymupdf
+import fitz
 import pandas as pd
 from openai import OpenAI
 import tempfile
