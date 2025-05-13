@@ -85,24 +85,7 @@ Explanation: ...
         match_data.append(row)
 
     df = pd.DataFrame(match_data)
-    # Get top-matching candidate for each job
-top_candidates = []
-
-for jd_name in jd_texts.keys():
-    if jd_name in df.columns and not df[jd_name].isnull().all():
-        best_idx = df[jd_name].idxmax()
-        best_row = df.loc[best_idx]
-        top_candidates.append({
-            "Job Description": jd_name,
-            "Best Candidate": best_row["CV"],
-            "Match Score": best_row[jd_name]
-        })
-
-df_top = pd.DataFrame(top_candidates)
-st.subheader("🌟 Best Candidate per Job")
-st.dataframe(df_top)
-
-st.download_button("📥 Download Top Candidates", df_top.to_csv(index=False), "top_candidates_per_job.csv")
+  
 
         # Determine best CV for each job description
     top_candidates = []
