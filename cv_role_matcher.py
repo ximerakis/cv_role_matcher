@@ -1,5 +1,5 @@
 import streamlit as st
-import fitz  # PyMuPDF
+import PyMuPDF
 import pandas as pd
 from openai import OpenAI
 import tempfile
@@ -85,6 +85,20 @@ Explanation: ...
         match_data.append(row)
 
     df = pd.DataFrame(match_data)
+        # Determine best CV for each job description
+    top_candidates = []
+    for jd_name in jd_texts.keys():
+        if jd_name in df.columns:
+            top_row = df.loc[df[jd_name].idxmax()]
+            top_candidates.append({"Job": jd_name, "Best Candidate": top_row["CV"], "Score": top_row[jd_name]})
+
+        st.subheader("🌟 Best Candidate per Job")
+    st.dataframe(df_top)
+    st.download_button("📥 Download Top Candidates", df_top.to_csv(index=False), "top_candidates_per_job.csv")
+
+    
+    df_top = pd.DataFrame(top_candidates)
+
     st.success("✅ Matching complete!")
     st.dataframe(df)
 
