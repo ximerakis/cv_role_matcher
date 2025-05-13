@@ -85,23 +85,35 @@ Explanation: ...
         match_data.append(row)
 
     df = pd.DataFrame(match_data)
+    # Format scores as percentages for display (optional)
+for jd_name in jd_texts.keys():
+    if jd_name in df.columns:
+        df[jd_name] = df[jd_name].apply(lambda x: f"{x}%" if x is not None else "N/A")
+
+    # Determine best CV for each job description
+top_candidates = []
+for jd_name in jd_texts.keys():
+    if jd_name in df.columns and not df[jd_name].isnull().all():
+        best_idx = df[jd_name].idxmax()
+        best_row = df.loc[best_idx]
+        top_candidates.append({
+            "Job": jd_name,
+            "Best Candidate": best_row["CV"],
+            "Score": best_row[jd_name]
+        })
+
+df_top = pd.DataFrame(top_candidates)
+
+st.success("✅ Matching complete!")
+
+# Show match matrix
+st.subheader("📊 CV Match Matrix")
+st.dataframe(df)
+st.download_button("📥 Download Match Results", df.to_csv(index=False), "cv_match_matrix.csv")
+
+# Show top candidates per job
+st.subheader("🌟 Best Candidate per Job")
+st.dataframe(df_top)
+st.download_button("📥 Download Top Candidates", df_top.to_csv(index=False), "top_candidates_per_job.csv")
+
   
-
-        # Determine best CV for each job description
-    top_candidates = []
-    for jd_name in jd_texts.keys():
-        if jd_name in df.columns:
-            top_row = df.loc[df[jd_name].idxmax()]
-            top_candidates.append({"Job": jd_name, "Best Candidate": top_row["CV"], "Score": top_row[jd_name]})
-
-        st.subheader("🌟 Best Candidate per Job")
-    st.dataframe(df_top)
-    st.download_button("📥 Download Top Candidates", df_top.to_csv(index=False), "top_candidates_per_job.csv")
-
-    
-    df_top = pd.DataFrame(top_candidates)
-
-    st.success("✅ Matching complete!")
-    st.dataframe(df)
-
-    st.download_button("📥 Download Match Results", df.to_csv(index=False), "cv_match_matrix.csv")
