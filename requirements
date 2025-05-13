@@ -1,4 +1,4 @@
 streamlit
 openai
 pandas
-pymupdf
+pymupdf==1.23.7
